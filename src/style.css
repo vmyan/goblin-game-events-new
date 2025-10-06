@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(4, 100px);
+  gap: 5px;
+  width: max-content;
+  margin: 50px auto;
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #000;
+  position: relative;
+}
+
+.goblin {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.hammer {
+  position: absolute;
+  pointer-events: none;
+  font-size: 30px;
+  user-select: none;
+  z-index: 100;
+}
+
+.score {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  z-index: 50;
+}
