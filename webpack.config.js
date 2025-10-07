@@ -19,7 +19,7 @@ module.exports = {
     rules: [
       { test: /\.js$/, exclude: /node_modules/, use: 'babel-loader' },
       { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
-      { test: /\.(png|jpe?g|gif)$/i, type: 'asset/resource' },
+      { test: /\.(png|jpg|jpeg|gif|svg)$/i, type: 'asset/resource'},
     ],
   },
   plugins: [

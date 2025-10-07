@@ -1,33 +1,43 @@
-import goblinImg from '../assets/goblin.png';
+import goblinImg from "../assets/goblin.png";
 
 export default class Goblin {
   constructor(cells) {
     this.cells = cells;
-    this.img = document.createElement('img');
-    this.img.src = goblinImg;
-    this.img.className = 'goblin';
-    this.img.style.position = 'absolute';
-    this.img.style.display = 'none';
-    this.currentCell = null;
-    // Добавляем в body временно — потом будем перемещать в ячейки
-    document.body.appendChild(this.img);
+    this.img = null;
+    this.lastIndex = null;
   }
 
+  // Метод для отображения гоблина в случайной ячейке
   showInRandomCell() {
-    const availableCells = this.cells.filter(cell => cell !== this.currentCell);
-    const newCell = availableCells[Math.floor(Math.random() * availableCells.length)];
-    this.currentCell = newCell;
-    newCell.appendChild(this.img);
-    this.img.style.display = 'block';
+    if (!this.cells || this.cells.length === 0) return;
+
+    let index;
+    // Не допускаем появления в той же ячейке дважды подряд
+    do {
+      index = Math.floor(Math.random() * this.cells.length);
+    } while (index === this.lastIndex && this.cells.length > 1);
+
+    this.lastIndex = index;
+    const cell = this.cells[index];
+
+    this.img = document.createElement("img");
+    this.img.src = goblinImg;
+    this.img.alt = "Гоблин";
+    this.img.classList.add("goblin");
+
+    cell.append(this.img);
   }
 
+  // Метод для удаления гоблина
   hide() {
-    if (this.img.parentElement) {
-      this.img.style.display = 'none';
+    if (this.img && this.img.parentElement) {
+      this.img.remove(); // реальное удаление из DOM
+      this.img = null;
     }
   }
 
+  // Проверка, отображается ли гоблин
   isVisible() {
-    return this.img.style.display !== 'none';
+    return !!this.img;
   }
 }
