@@ -7,12 +7,10 @@ export default class Goblin {
     this.lastIndex = null;
   }
 
-  // Метод для отображения гоблина в случайной ячейке
   showInRandomCell() {
     if (!this.cells || this.cells.length === 0) return;
 
     let index;
-    // Не допускаем появления в той же ячейке дважды подряд
     do {
       index = Math.floor(Math.random() * this.cells.length);
     } while (index === this.lastIndex && this.cells.length > 1);
@@ -28,15 +26,13 @@ export default class Goblin {
     cell.append(this.img);
   }
 
-  // Метод для удаления гоблина
   hide() {
     if (this.img && this.img.parentElement) {
-      this.img.remove(); // реальное удаление из DOM
+      this.img.remove(); 
       this.img = null;
     }
   }
 
-  // Проверка, отображается ли гоблин
   isVisible() {
     return !!this.img;
   }

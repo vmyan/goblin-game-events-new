@@ -11,6 +11,8 @@ export default class Game {
     this.onGameOver = onGameOver;
     this.onScoreUpdate = onScoreUpdate;
 
+    this.timeoutId = null; 
+
     this.start();
   }
 
@@ -20,23 +22,29 @@ export default class Game {
 
   nextGoblin() {
     if (this.misses >= this.maxMisses) {
-      this.onGameOver?.();
-      return;
-    }
+    this.gameOver();
+    return;
+  }
+
+    clearTimeout(this.timeoutId);
 
     this.goblin.showInRandomCell();
 
     const goblinElement = this.goblin.img;
+
     const goblinClickHandler = () => {
+      clearTimeout(this.timeoutId);
+      goblinElement.removeEventListener("click", goblinClickHandler);
+
       this.hits++;
       this.onScoreUpdate?.({ hits: this.hits, misses: this.misses });
+
       this.goblin.hide();
-      this.nextGoblin();
+      this.nextGoblin(); 
     };
 
     goblinElement.addEventListener("click", goblinClickHandler);
 
-    // если через 1 секунду не кликнули
     this.timeoutId = setTimeout(() => {
       goblinElement.removeEventListener("click", goblinClickHandler);
       this.goblin.hide();
@@ -44,5 +52,15 @@ export default class Game {
       this.onScoreUpdate?.({ hits: this.hits, misses: this.misses });
       this.nextGoblin();
     }, 1000);
+  }
+
+gameOver() {
+    clearTimeout(this.timeoutId);
+    this.onGameOver?.(); 
+
+    const message = document.querySelector(".game-over-message");
+    if (message) {
+      message.classList.add("show");
+    }
   }
 }

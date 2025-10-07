@@ -1,30 +1,32 @@
 import Goblin from "../Goblin.js";
 
-describe("Goblin class", () => {
-  let container, cells, goblin;
+describe("Goblin", () => {
+  let cells;
+  let goblin;
 
   beforeEach(() => {
-    container = document.createElement("div");
-    cells = Array.from({ length: 4 }, () => {
-      const cell = document.createElement("div");
-      container.append(cell);
-      return cell;
-    });
+    cells = Array.from({ length: 4 }, () => document.createElement("div"));
     goblin = new Goblin(cells);
   });
 
-  test("initially hidden", () => {
-    expect(goblin.isVisible()).toBe(false);
+  test("появляется в одной из ячеек", () => {
+    goblin.showInRandomCell();
+    const img = goblin.img;
+    expect(img).not.toBeNull();
+    expect(cells.some(cell => cell.contains(img))).toBe(true);
   });
 
-  test("showInRandomCell displays goblin", () => {
+  test("исчезает после hide()", () => {
+    goblin.showInRandomCell();
+    goblin.hide();
+    expect(goblin.img).toBeNull();
+    expect(cells.every(cell => cell.querySelector("img") === null)).toBe(true);
+  });
+
+  test("isVisible возвращает корректное значение", () => {
+    expect(goblin.isVisible()).toBe(false);
     goblin.showInRandomCell();
     expect(goblin.isVisible()).toBe(true);
-    expect(cells.some(cell => cell.contains(goblin.img))).toBe(true);
-  });
-
-  test("hide hides goblin", () => {
-    goblin.showInRandomCell();
     goblin.hide();
     expect(goblin.isVisible()).toBe(false);
   });

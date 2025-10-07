@@ -1,29 +1,29 @@
 import Score from "../Score.js";
 
-describe("Score class", () => {
+describe("Score", () => {
   let score;
 
   beforeEach(() => {
-    score = new Score(5); // maxMisses = 5
+    score = new Score(3);
   });
 
-  test("initial points and misses are zero", () => {
+  test("hit увеличивает очки", () => {
     expect(score.points).toBe(0);
-    expect(score.misses).toBe(0);
-  });
-
-  test("hit increments points", () => {
     score.hit();
     expect(score.points).toBe(1);
   });
 
-  test("miss increments misses", () => {
+  test("miss увеличивает промахи", () => {
+    expect(score.misses).toBe(0);
     score.miss();
     expect(score.misses).toBe(1);
   });
 
-  test("isGameOver returns true after max misses", () => {
-    for (let i = 0; i < 5; i++) score.miss();
+  test("isGameOver возвращает true при превышении maxMisses", () => {
+    expect(score.isGameOver()).toBe(false);
+    score.miss();
+    score.miss();
+    score.miss();
     expect(score.isGameOver()).toBe(true);
   });
 });
